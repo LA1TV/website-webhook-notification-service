@@ -1,0 +1,23 @@
+{
+  "name": "website-webhook-notification-service",
+  "version": "0.0.1",
+  "description": "This service is responsible for making the webhook POST requests to API users that have subscribed to webhook events.",
+  "main": "./app/main.js",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LA1TV/website-webhook-notification-service.git"
+  },
+  "engine": {
+    "node": ">=0.6.0"
+  },
+  "author": {
+    "name": "Tom Jenkinson",
+    "email": "tjcode@outlook.com"
+  },
+  "dependencies": {
+    "mysql": "^2.10.0",
+    "redis": "^2.4.2",
+    "request": "^2.67.0"
+  }
+}
