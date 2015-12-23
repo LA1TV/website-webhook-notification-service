@@ -18,7 +18,7 @@ Promise.all([connectRedis(), connectMysql()]).then(function(results) {
 		}
 		else if (channel === "testChannel") {
 			getUserWebhookUrl(data.apiUserId).then(function(url) {
-				sendWebhook(url, "test", {success: true});
+				sendWebhook(url, "test", {info: "Hello!"});
 			});
 		}
 	});
