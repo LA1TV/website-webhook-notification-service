@@ -6,6 +6,8 @@ var config = require("../config.json");
 var redisClient = null;
 var mysqlCon = null;
 
+console.log("Loading...");
+
 Promise.all([connectRedis(), connectMysql()]).then(function(results) {
 	redisClient = results[0];
 	mysqlCon = results[1];
@@ -23,6 +25,8 @@ Promise.all([connectRedis(), connectMysql()]).then(function(results) {
 
 	redisClient.subscribe("mediaItemLiveChannel");
 	redisClient.subscribe("testChannel");
+
+	console.log("Loaded.");
 });
 
 function connectRedis() {
