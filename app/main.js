@@ -13,7 +13,7 @@ Promise.all([connectRedis(), connectMysql()]).then(function(results) {
 	mysqlCon = results[1];
 	redisClient.on("message", function(channel, message) {
 		var data = JSON.parse(message);
-		if (channel === "mediaItemLiveChannel") {
+		if (channel === "broadcastChannel") {
 			sendWebhooks(data.eventId, data.payload);
 		}
 		else if (channel === "testChannel") {
@@ -23,7 +23,7 @@ Promise.all([connectRedis(), connectMysql()]).then(function(results) {
 		}
 	});
 
-	redisClient.subscribe("mediaItemLiveChannel");
+	redisClient.subscribe("broadcastChannel");
 	redisClient.subscribe("testChannel");
 
 	console.log("Loaded.");
@@ -91,24 +91,24 @@ function sendWebhook(url, eventId, payload) {
 function getWebhookUrls() {
 	return new Promise(function(resolve) {
 		mysqlCon.query('SELECT webhook_url FROM api_users WHERE enabled=1 AND can_use_webhooks=1 AND webhook_url IS NOT NULL', function(err, results) {
-  			if (err) throw(err);
-  			resolve(results.map(function(a) {
-  				return a.webhook_url;
-  			}));
-  		});
-  	});
+			if (err) throw(err);
+			resolve(results.map(function(a) {
+				return a.webhook_url;
+			}));
+		});
+	});
 }
 
 function getUserWebhookUrl(id) {
 	return new Promise(function(resolve, reject) {
 		mysqlCon.query('SELECT webhook_url FROM api_users WHERE id=? AND enabled=1 AND can_use_webhooks=1 AND webhook_url IS NOT NULL', [id], function(err, results) {
-  			if (err) throw(err);
-  			if (results.length  > 0) {
-  				resolve(results[0].webhook_url);
-  			}
-  			else {
-  				reject();
-  			}
-  		});
-  	});
+			if (err) throw(err);
+			if (results.length  > 0) {
+				resolve(results[0].webhook_url);
+			}
+			else {
+				reject();
+			}
+		});
+	});
 }
